@@ -17,10 +17,10 @@ import reactor.test.StepVerifier;
 @DataR2dbcTest
 @Import(DataConfig.class)
 @Testcontainers
-public class OrderRepositoryR2dbcTests {
+class OrderRepositoryR2dbcTests {
+
     @Container
-    static PostgreSQLContainer<?> postgresql =
-        new PostgreSQLContainer<>(DockerImageName.parse("postgres:14.4"));
+    static PostgreSQLContainer<?> postgresql = new PostgreSQLContainer<>(DockerImageName.parse("postgres:14.4"));
 
     @Autowired
     private OrderRepository orderRepository;
@@ -34,19 +34,23 @@ public class OrderRepositoryR2dbcTests {
     }
 
     private static String r2dbcUrl() {
-        return String.format("r2dbc:postgresql://%s:%s/%s",
-             postgresql.getContainerIpAddress(),
-            postgresql.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT),
-            postgresql.getDatabaseName());
+        return String.format("r2dbc:postgresql://%s:%s/%s", postgresql.getHost(),
+                             postgresql.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT), postgresql.getDatabaseName());
+    }
+
+    @Test
+    void findOrderByIdWhenNotExisting() {
+        StepVerifier.create(orderRepository.findById(394L))
+            .expectNextCount(0)
+            .verifyComplete();
     }
 
     @Test
     void createRejectedOrder() {
         var rejectedOrder = OrderService.buildRejectedOrder("1234567890", 3);
-        StepVerifier
-            .create(orderRepository.save(rejectedOrder))
-            .expectNextMatches(
-                order -> order.status().equals(OrderStatus.REJECTED))
+        StepVerifier.create(orderRepository.save(rejectedOrder))
+            .expectNextMatches(order -> order.status().equals(OrderStatus.REJECTED))
             .verifyComplete();
     }
+
 }
