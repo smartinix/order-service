@@ -1,7 +1,7 @@
 package com.smartinix.orderservice.order.web;
 
-import com.polarbookshop.orderservice.order.domain.Order;
-import com.polarbookshop.orderservice.order.domain.OrderStatus;
+import com.smartinix.orderservice.order.domain.Order;
+import com.smartinix.orderservice.order.domain.OrderStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
