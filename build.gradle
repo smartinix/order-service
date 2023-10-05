@@ -7,6 +7,8 @@ plugins {
 group = 'com.smartinix'
 version = '0.0.1-SNAPSHOT'
 
+description = 'Provides functionality for purchasing books.'
+
 java {
 	sourceCompatibility = '17'
 }
