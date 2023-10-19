@@ -18,6 +18,7 @@ public class OrderFunctions {
     public Consumer<Flux<OrderDispatchedMessage>> dispatchOrder(
         OrderService orderService
     ) {
+        log.info("Dispatch order.");
         return flux ->
             orderService.consumeOrderDispatchedEvent(flux)
                 .doOnNext(order -> log.info("The order with id {} is dispatched",

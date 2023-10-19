@@ -89,7 +89,9 @@ public class OrderService {
     }
 
     private void publishOrderAcceptedEvent(Order order) {
+        log.info("Publish order ACCEPTED event.");
         if (!order.status().equals(OrderStatus.ACCEPTED)) {
+            log.info("Order is not ACCEPTED.");
             return;
         }
         var orderAcceptedMessage =
